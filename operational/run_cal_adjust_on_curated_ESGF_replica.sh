@@ -59,8 +59,8 @@ do
       do
         if [ $ncfile != "*.nc" ]; then
           #only include is the file is a regular lat,lon grid (PaleoCalAdjust won't work otherwise)
-          isLatLon $ESGF_DIR/$gcm/$expt $ncfile
-          if [ $? == 1 ]; then
+          #isLatLon $ESGF_DIR/$gcm/$expt $ncfile
+          #if [ $? == 1 ]; then
             input_file="$ESGF_DIR/$gcm/$expt/$ncfile"
             output_file=${input_file//$expt/$expt\-$CA_STR}
             if [ $NO_OVERWRITE == "TRUE" ] && [ -f $output_file ]; then 
@@ -79,7 +79,7 @@ do
               # echo `pwd`
               echo 'PMIP3,'${prior_str//_/,},,$start_yr'01',$end_yr'12,,'$CA_STR','$calendar','$expt_yr','$expt_yr',1,1000,'$length',"'$ESGF_DIR/$gcm/$expt'/","'$ESGF_DIR/$gcm/$expt\-$CA_STR'/"' >> $info_file 
             fi
-          fi
+          #fi
         fi
       done
       cat $info_file
@@ -124,8 +124,8 @@ do
       do
         if [ $ncfile != "*.nc" ]; then
           #only include is the file is a regular lat,lon grid (PaleoCalAdjust won't work otherwise)
-          isLatLon $ESGF_DIR/$gcm/$expt $ncfile
-          if [ $? == 1 ]; then
+          #isLatLon $ESGF_DIR/$gcm/$expt $ncfile
+          #if [ $? == 1 ]; then
             input_file="$ESGF_DIR/$gcm/$expt/$ncfile"
             output_file=${input_file//$expt/$expt\-$CA_STR}
             if [ $NO_OVERWRITE == "TRUE" ] && [ -f $output_file ]; then 
@@ -133,18 +133,21 @@ do
               echo "Not overwriting "$output_file
             else
               #manipulate string
+              echo $input_file $output_file
               no_nc=`echo ${ncfile%.nc}`
               yr_str=${no_nc##*_}
               prior_str=${no_nc%_*}
+              echo $prior_str
               start_yr=`echo $yr_str | cut -c-4`
               end_yr=`echo ${yr_str##*-} | cut -c-4`
               let length=$((10#$end_yr))-$((10#$start_yr))+1
               calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time | grep calendar | cut -d\" -f2`
               #write names into csv file
               # echo `pwd`
-              echo 'PMIP4,'${prior_str//_/,},$start_yr'01',$end_yr'12,,'$CA_STR','$calendar','$expt_yr','$expt_yr',1,1000,'$length',"'$ESGF_DIR/$gcm/$expt'/","'$ESGF_DIR/$gcm/$expt${CA_STR/_/-}'/"' >> $info_file 
+              echo 'PMIP4,'${prior_str//_/,},$start_yr'01',$end_yr'12,,'$CA_STR','$calendar','$expt_yr','$expt_yr',1,1000,'$length',"'$ESGF_DIR/$gcm/$expt'/","'$ESGF_DIR/$gcm/$expt\-$CA_STR'/"'
+              echo 'PMIP4,'${prior_str//_/,},$start_yr'01',$end_yr'12,,'$CA_STR','$calendar','$expt_yr','$expt_yr',1,1000,'$length',"'$ESGF_DIR/$gcm/$expt'/","'$ESGF_DIR/$gcm/$expt\-$CA_STR'/"' >> $info_file 
             fi
-          fi
+          #fi
         fi
       done
       cat $info_file
