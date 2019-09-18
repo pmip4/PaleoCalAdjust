@@ -58,9 +58,9 @@ do
       for ncfile in $ncfiles
       do
         if [ $ncfile != "*.nc" ]; then
-          #only include is the file is a regular lat,lon grid (PaleoCalAdjust won't work otherwise)
-          #isLatLon $ESGF_DIR/$gcm/$expt $ncfile
-          #if [ $? == 1 ]; then
+          #only include if the file is a regular lat,lon grid (PaleoCalAdjust won't work otherwise)
+          isLatLon $ESGF_DIR/$gcm/$expt $ncfile
+          if [ $? == 1 ]; then
             input_file="$ESGF_DIR/$gcm/$expt/$ncfile"
             output_file=${input_file//$expt/$expt\-$CA_STR}
             if [ $NO_OVERWRITE == "TRUE" ] && [ -f $output_file ]; then 
@@ -74,12 +74,12 @@ do
               start_yr=`echo $yr_str | cut -c-4`
               end_yr=`echo ${yr_str##*-} | cut -c-4`
               let length=$((10#$end_yr))-$((10#$start_yr))+1
-              calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time | grep calendar | cut -d\" -f2`
+              calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time | grep calendar | head -n1 | cut -d\" -f2`
               #write names into csv file
               # echo `pwd`
               echo 'PMIP3,'${prior_str//_/,},,$start_yr'01',$end_yr'12,,'$CA_STR','$calendar','$expt_yr','$expt_yr',1,1000,'$length',"'$ESGF_DIR/$gcm/$expt'/","'$ESGF_DIR/$gcm/$expt\-$CA_STR'/"' >> $info_file 
             fi
-          #fi
+          fi
         fi
       done
       cat $info_file
@@ -141,7 +141,7 @@ do
               start_yr=`echo $yr_str | cut -c-4`
               end_yr=`echo ${yr_str##*-} | cut -c-4`
               let length=$((10#$end_yr))-$((10#$start_yr))+1
-              calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time | grep calendar | cut -d\" -f2`
+              calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time | grep time:calendar | cut -d\" -f2`
               #write names into csv file
               # echo `pwd`
               echo 'PMIP4,'${prior_str//_/,},$start_yr'01',$end_yr'12,,'$CA_STR','$calendar','$expt_yr','$expt_yr',1,1000,'$length',"'$ESGF_DIR/$gcm/$expt'/","'$ESGF_DIR/$gcm/$expt\-$CA_STR'/"'
