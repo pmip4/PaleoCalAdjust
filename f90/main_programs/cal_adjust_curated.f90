@@ -131,7 +131,7 @@ max_threads = max_threads - 2 ! to be able to do other things
 call omp_set_num_threads(max_threads)
 
 ! info files
-infopath = "/Projects/Calendar/PaleoCalAdjust/data/info_files/" ! Windows path
+infopath = "./" ! Windows path
 !infopath = "/Users/bartlein/Projects/Calendar/PaleoCalAdjust/data/info_files/"  ! Mac path
 infofile = "cal_adj_info.csv"
 
