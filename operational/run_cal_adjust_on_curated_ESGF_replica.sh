@@ -26,7 +26,7 @@ function isLatLon {
   fi
 }  
 
-pmip3_gcms="bcc-csm1-1 CCSM4 CNRM-CM5 COSMOS-ASO CSIRO-Mk3-6-0 CSIRO-Mk3L-1-2 EC-EARTH-2-2 FGOALS-g2 FGOALS-s2 GISS-E2-R HadCM3 HadGEM2-CC HadGEM2-ES IPSL-CM5A-LR KCM1-2-2 MIROC-ESM MPI-ESM-P MRI-CGCM3 MRI-ESM2-0"
+pmip3_gcms="ACCESS-ESM1-5 bcc-csm1-1 CCSM4 CNRM-CM5 COSMOS-ASO CSIRO-Mk3-6-0 CSIRO-Mk3L-1-2 EC-EARTH-2-2 FGOALS-g2 FGOALS-s2 GISS-E2-R HadCM3 HadGEM2-CC HadGEM2-ES IPSL-CM5A-LR KCM1-2-2 LOVECLIM MIROC-ESM MPI-ESM-P MRI-CGCM3"
 pmip3_expts="midHolocene lgm"
 for gcm in $pmip3_gcms
 do
@@ -58,9 +58,9 @@ do
       for ncfile in $ncfiles
       do
         if [ $ncfile != "*.nc" ]; then
-          #only include if the file is a regular lat,lon grid (PaleoCalAdjust won't work otherwise)
-          isLatLon $ESGF_DIR/$gcm/$expt $ncfile
-          if [ $? == 1 ]; then
+          #only include is the file is a regular lat,lon grid (PaleoCalAdjust won't work otherwise)
+          #isLatLon $ESGF_DIR/$gcm/$expt $ncfile
+          #if [ $? == 1 ]; then
             input_file="$ESGF_DIR/$gcm/$expt/$ncfile"
             output_file=${input_file//$expt/$expt\-$CA_STR}
             if [ $NO_OVERWRITE == "TRUE" ] && [ -f $output_file ]; then 
@@ -74,12 +74,12 @@ do
               start_yr=`echo $yr_str | cut -c-4`
               end_yr=`echo ${yr_str##*-} | cut -c-4`
               let length=$((10#$end_yr))-$((10#$start_yr))+1
-              calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time | grep calendar | head -n1 | cut -d\" -f2`
+              calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time | grep calendar | cut -d\" -f2`
               #write names into csv file
               # echo `pwd`
               echo 'PMIP3,'${prior_str//_/,},,$start_yr'01',$end_yr'12,,'$CA_STR','$calendar','$expt_yr','$expt_yr',1,1000,'$length',"'$ESGF_DIR/$gcm/$expt'/","'$ESGF_DIR/$gcm/$expt\-$CA_STR'/"' >> $info_file 
             fi
-          fi
+          #fi
         fi
       done
       cat $info_file
@@ -90,7 +90,7 @@ done
 
 
 #PMIP4
-pmip4_gcms="IPSL-CM6A-LR HadGEM3-GC31 AWI-ESM"
+pmip4_gcms="ACCESS-ESM1-5 AWI-ESM CESM2 CNRM-CM6-1 FGOALS-f3-L FGOALS-g3 GISS-E2-1-G HadGEM3-GC31 INM-CM4-8 IPSL-CM6A-LR LOVECLIM MIROC-ES2L MRI-ESM2-0 NESM3 NorESM1-F NorESM2-LM UofT-CCSM-4"
 pmip4_expts="midHolocene lig127k lgm"
 
 for gcm in $pmip4_gcms
@@ -130,7 +130,7 @@ do
             output_file=${input_file//$expt/$expt\-$CA_STR}
             if [ $NO_OVERWRITE == "TRUE" ] && [ -f $output_file ]; then 
               #skip over this one
-              echo "Not overwriting "$output_file
+              #echo "Not overwriting "$output_file
             else
               #manipulate string
               echo $input_file $output_file
@@ -141,7 +141,7 @@ do
               start_yr=`echo $yr_str | cut -c-4`
               end_yr=`echo ${yr_str##*-} | cut -c-4`
               let length=$((10#$end_yr))-$((10#$start_yr))+1
-              calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time | grep time:calendar | cut -d\" -f2`
+              calendar=`ncdump -h $ESGF_DIR/$gcm/$expt/$ncfile | grep time: | grep calendar | cut -d\" -f2`
               #write names into csv file
               # echo `pwd`
               echo 'PMIP4,'${prior_str//_/,},$start_yr'01',$end_yr'12,,'$CA_STR','$calendar','$expt_yr','$expt_yr',1,1000,'$length',"'$ESGF_DIR/$gcm/$expt'/","'$ESGF_DIR/$gcm/$expt\-$CA_STR'/"'
