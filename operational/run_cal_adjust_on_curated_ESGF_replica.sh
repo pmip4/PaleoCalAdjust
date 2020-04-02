@@ -32,6 +32,7 @@ for gcm in $pmip3_gcms
 do
   for expt in $pmip3_expts
   do
+    echo $gcm $expt
     case $expt in 
     midHolocene)
       expt_yr=-6000
@@ -52,7 +53,7 @@ do
       mkdir -p $ESGF_DIR/$gcm/$expt\-$CA_STR
       echo "activity,variable,time_freq,model,experiment,ensemble,grid_label,begdate,enddate,suffix,adj_name,calendar_type,begageBP,endageBP,agestep,begyrCE,nsimyrs,source_path,adjusted_path" > $info_file    
       cd $ESGF_DIR/$gcm/$expt
-      ncfiles=`ls -d *.nc`
+      ncfiles=`ls -d *mon_*.nc`
       #echo "$ncfiles"
       cd $THIS_DIR
       for ncfile in $ncfiles
@@ -65,7 +66,8 @@ do
             output_file=${input_file//$expt/$expt\-$CA_STR}
             if [ $NO_OVERWRITE == "TRUE" ] && [ -f $output_file ]; then 
               #skip over this one
-              echo "Not overwriting "$output_file
+              message=`echo "Not overwriting "$output_file`
+              # echo $message
             else
               #manipulate string
               no_nc=`echo ${ncfile%.nc}`
@@ -97,6 +99,7 @@ for gcm in $pmip4_gcms
 do
   for expt in $pmip4_expts
   do
+    echo $gcm $expt
     case $expt in 
     midHolocene)
       expt_yr=-6000
@@ -117,7 +120,7 @@ do
       mkdir -p $ESGF_DIR/$gcm/$expt\-$CA_STR
       echo "activity,variable,time_freq,model,experiment,ensemble,grid_label,begdate,enddate,suffix,adj_name,calendar_type,begageBP,endageBP,agestep,begyrCE,nsimyrs,source_path,adjusted_path" > $info_file    
       cd $ESGF_DIR/$gcm/$expt
-      ncfiles=`ls -d *.nc`
+      ncfiles=`ls -d *mon_*.nc`
       #echo "$ncfiles"
       cd $THIS_DIR
       for ncfile in $ncfiles
@@ -130,7 +133,8 @@ do
             output_file=${input_file//$expt/$expt\-$CA_STR}
             if [ $NO_OVERWRITE == "TRUE" ] && [ -f $output_file ]; then 
               #skip over this one
-              echo "Not overwriting "$output_file
+              message=`echo "Not overwriting "$output_file`
+              # echo $message
             else
               #manipulate string
               echo $input_file $output_file

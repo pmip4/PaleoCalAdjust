@@ -167,15 +167,13 @@ do
     case ('PMIP3', 'pmip3')
         ncfile_in = trim(variable)//"_"//trim(time_freq)//"_"//trim(model)//"_"//trim(experiment)//"_"// &
             trim(ensemble)//"_"//trim(begdate)//"-"//trim(enddate)//trim(suffix)//".nc"
-        ncfile_out = trim(variable)//"_"//trim(time_freq_output)//"_"//trim(model)//"_"//trim(experiment) &
-            //"-"//trim(adj_name)//"_"// &
-            trim(ensemble)//"_"//trim(begdate)//"-"//trim(enddate)//trim(suffix)//".nc"
+        ncfile_out = trim(variable)//"_"//trim(time_freq_output)//"_"//trim(model)//"_"//trim(experiment)//"_"// &
+            trim(ensemble)//"_"//trim(begdate)//"-"//trim(enddate)//trim(suffix)//trim(adj_name)//".nc"
     case ('PMIP4', 'pmip4')
         ncfile_in = trim(variable)//"_"//trim(time_freq)//"_"//trim(model)//"_"//trim(experiment)//"_"// &
             trim(ensemble)//"_"//trim(grid_label)//"_"//trim(begdate)//"-"//trim(enddate)//trim(suffix)//".nc"
-        ncfile_out = trim(variable)//"_"//trim(time_freq_output)//"_"//trim(model)//"_"//trim(experiment)// &
-            "-"//trim(adj_name)//"_"//trim(ensemble)//"_"//trim(grid_label)//"_"//trim(begdate)//"-"// &
-            trim(enddate)//trim(suffix)//".nc"
+        ncfile_out = trim(variable)//"_"//trim(time_freq_output)//"_"//trim(model)//"_"//trim(experiment)//"_"// &
+            trim(ensemble)//"_"//trim(grid_label)//"_"//trim(begdate)//"-"//trim(enddate)//trim(suffix)//trim(adj_name)//".nc"
     case default
         stop "activity type"
     end select
@@ -276,7 +274,6 @@ do
     ! Step 5:  Create the new netCDF file
 
     ! create a new netCDF file, and copy dimension variables and global attributes
-    write (*,'(a)') "Starting Step 5"
     call current_time(current)
     addglattname = "paleo_calendar_adjustment"
     addglatt = trim(current)//" paleo calendar adjustment by cal_adjust_PMIP.f90"
