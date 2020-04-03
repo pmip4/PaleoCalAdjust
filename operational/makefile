@@ -5,8 +5,8 @@ prog = ../f90/main_programs/
 mod = ../f90/modules/
 
 # netCDF and OpenMP libraries -- needs localization
-NCINC = -I$(HOME)/.conda/envs/paleocaladjust/include
-NCLIB = -L$(HOME)/.conda/envs/paleocaladjust/lib 
+NCINC = -I$(HOME)/DATA/PaleoCalAdjust/netcdf/include
+NCLIB = -L$(HOME)/DATA/PaleoCalAdjust/netcdf/lib 
 LIBS = -lnetcdff -lnetcdf -lgomp
 
 # compiler and flags
