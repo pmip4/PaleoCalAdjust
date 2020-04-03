@@ -1,0 +1,6 @@
+activity,variable,time_freq,model,experiment,ensemble,grid_label,begdate,enddate,suffix,adj_name,calendar_type,begageBP,endageBP,agestep,begyrCE,nsimyrs,source_path,adjusted_path
+PMIP4,clt,Amon,NESM3,midHolocene,r1i1p1f1,gn,179801,189712,,cal-adj,standard,-6000,-6000,1,1000,100,"/data/CMIP/curated_ESGF_replica/NESM3/midHolocene/","/data/CMIP/curated_ESGF_replica/NESM3/midHolocene-cal-adj/"
+PMIP4,pr,Amon,NESM3,midHolocene,r1i1p1f1,gn,179801,189712,,cal-adj,standard,-6000,-6000,1,1000,100,"/data/CMIP/curated_ESGF_replica/NESM3/midHolocene/","/data/CMIP/curated_ESGF_replica/NESM3/midHolocene-cal-adj/"
+PMIP4,psl,Amon,NESM3,midHolocene,r1i1p1f1,gn,179801,189712,,cal-adj,standard,-6000,-6000,1,1000,100,"/data/CMIP/curated_ESGF_replica/NESM3/midHolocene/","/data/CMIP/curated_ESGF_replica/NESM3/midHolocene-cal-adj/"
+PMIP4,tas,Amon,NESM3,midHolocene,r1i1p1f1,gn,179801,189712,,cal-adj,standard,-6000,-6000,1,1000,100,"/data/CMIP/curated_ESGF_replica/NESM3/midHolocene/","/data/CMIP/curated_ESGF_replica/NESM3/midHolocene-cal-adj/"
+PMIP4,ts,Amon,NESM3,midHolocene,r1i1p1f1,gn,179801,189712,,cal-adj,standard,-6000,-6000,1,1000,100,"/data/CMIP/curated_ESGF_replica/NESM3/midHolocene/","/data/CMIP/curated_ESGF_replica/NESM3/midHolocene-cal-adj/"

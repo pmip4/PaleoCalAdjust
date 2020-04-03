@@ -26,13 +26,27 @@ function isLatLon {
   fi
 }  
 
+function hasLongIndices {
+  hasLongIndices_DIR=$1
+  hasLongIndices_filename=$2
+  hasLongIndices_varname=${hasLongIndices_filename%%_*}
+  hasLongIndices_indices=`ncdump -h $hasLongIndices_DIR/$hasLongIndices_filename | grep index`
+  if [[ $hasLongIndices_indices == *"L"* ]]
+  then
+    return 1
+  else
+    return 0
+  fi
+}  
+
+
+
 pmip3_gcms="ACCESS-ESM1-5 bcc-csm1-1 CCSM4 CNRM-CM5 COSMOS-ASO CSIRO-Mk3-6-0 CSIRO-Mk3L-1-2 EC-EARTH-2-2 FGOALS-g2 FGOALS-s2 GISS-E2-R HadCM3 HadGEM2-CC HadGEM2-ES IPSL-CM5A-LR KCM1-2-2 LOVECLIM MIROC-ESM MPI-ESM-P MRI-CGCM3"
 pmip3_expts="midHolocene lgm"
 for gcm in $pmip3_gcms
 do
   for expt in $pmip3_expts
   do
-    echo $gcm $expt
     case $expt in 
     midHolocene)
       expt_yr=-6000
@@ -51,14 +65,14 @@ do
     if [ -d $ESGF_DIR/$gcm/$expt ] 
     then
       mkdir -p $ESGF_DIR/$gcm/$expt\-$CA_STR
-      echo "activity,variable,time_freq,model,experiment,ensemble,grid_label,begdate,enddate,suffix,adj_name,calendar_type,begageBP,endageBP,agestep,begyrCE,nsimyrs,source_path,adjusted_path" > $info_file    
       cd $ESGF_DIR/$gcm/$expt
       ncfiles=`ls -d *mon_*.nc`
       #echo "$ncfiles"
       cd $THIS_DIR
+      INFO_HEADER_WRITTEN=0 #set a flag to make sure that we write the header line at the top of the csv file 
       for ncfile in $ncfiles
       do
-        if [ $ncfile != "*.nc" ]; then
+        if [ $ncfile != "*.nc" ]; then #Only enter this loop if there are any monthly nc files
           #only include is the file is a regular lat,lon grid (PaleoCalAdjust won't work otherwise)
           #isLatLon $ESGF_DIR/$gcm/$expt $ncfile
           #if [ $? == 1 ]; then
@@ -69,6 +83,10 @@ do
               message=`echo "Not overwriting "$output_file`
               # echo $message
             else
+              if [ INFO_HEADER_WRITTEN == 0 ]; then
+                echo "activity,variable,time_freq,model,experiment,ensemble,grid_label,begdate,enddate,suffix,adj_name,calendar_type,begageBP,endageBP,agestep,begyrCE,nsimyrs,source_path,adjusted_path" > $info_file    
+                INFO_HEADER_WRITTEN=1  
+              fi 
               #manipulate string
               no_nc=`echo ${ncfile%.nc}`
               yr_str=${no_nc##*_}
@@ -84,8 +102,12 @@ do
           #fi
         fi
       done
-      cat $info_file
-      ./cal_adjust_curated
+      if [ INFO_HEADER_WRITTEN == 1 ]; then
+        # Use whether HEADER will have been written to determine whether to run adjustment   
+        echo $gcm $expt
+        cat $info_file
+        ./cal_adjust_curated
+      fi
     fi
   done
 done
@@ -99,7 +121,6 @@ for gcm in $pmip4_gcms
 do
   for expt in $pmip4_expts
   do
-    echo $gcm $expt
     case $expt in 
     midHolocene)
       expt_yr=-6000
@@ -118,14 +139,14 @@ do
     if [ -d $ESGF_DIR/$gcm/$expt ] 
     then
       mkdir -p $ESGF_DIR/$gcm/$expt\-$CA_STR
-      echo "activity,variable,time_freq,model,experiment,ensemble,grid_label,begdate,enddate,suffix,adj_name,calendar_type,begageBP,endageBP,agestep,begyrCE,nsimyrs,source_path,adjusted_path" > $info_file    
       cd $ESGF_DIR/$gcm/$expt
       ncfiles=`ls -d *mon_*.nc`
       #echo "$ncfiles"
       cd $THIS_DIR
+      INFO_HEADER_WRITTEN=1 #set a flag to make sure that we write the header line at the top of the csv file 
       for ncfile in $ncfiles
       do
-        if [ $ncfile != "*.nc" ]; then
+        if [ $ncfile != "*.nc" ]; then #Only enter this loop if there are any monthly nc files
           #only include is the file is a regular lat,lon grid (PaleoCalAdjust won't work otherwise)
           #isLatLon $ESGF_DIR/$gcm/$expt $ncfile
           #if [ $? == 1 ]; then
@@ -136,6 +157,14 @@ do
               message=`echo "Not overwriting "$output_file`
               # echo $message
             else
+              hasLongIndices $ESGF_DIR/$gcm/$expt $ncfile
+              if [ $? == 1 ]; then
+                ncatted -a physics_index,global,d,, -a forcing_index,global,d,, -a realization_index,global,d,, -a initialization_index,global,d,, $ESGF_DIR/$gcm/$expt/$ncfile
+              fi
+              if [ INFO_HEADER_WRITTEN == 0 ]; then
+                echo "activity,variable,time_freq,model,experiment,ensemble,grid_label,begdate,enddate,suffix,adj_name,calendar_type,begageBP,endageBP,agestep,begyrCE,nsimyrs,source_path,adjusted_path" > $info_file    
+                INFO_HEADER_WRITTEN=1  
+              fi 
               #manipulate string
               echo $input_file $output_file
               no_nc=`echo ${ncfile%.nc}`
@@ -154,8 +183,12 @@ do
           #fi
         fi
       done
-      cat $info_file
-      ./cal_adjust_curated
+      if [ INFO_HEADER_WRITTEN == 1 ]; then
+        # Use whether HEADER will have been written to determine whether to run adjustment   
+        echo $gcm $expt
+        cat $info_file
+        ./cal_adjust_curated
+      fi
     fi
   done
 done

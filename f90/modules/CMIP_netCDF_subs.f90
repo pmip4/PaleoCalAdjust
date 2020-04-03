@@ -5,7 +5,7 @@ module CMIP_netCDF_subs
 
     implicit none
 
-    integer, parameter          :: maxdims = 4, maxvars = 8, maxatts = 100, maxdimsize = 1440
+    integer, parameter          :: maxdims = 8, maxvars = 20, maxatts = 100, maxdimsize = 1440
 
     ! dimensions
     integer(4)                  :: ncid_in, ncid_out, ndim, nvar, nglatt, unlimid, ncformat
