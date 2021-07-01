@@ -1,0 +1,4 @@
+activity,variable,time_freq,model,experiment,ensemble,grid_label,begdate,enddate,suffix,adj_name,calendar_type,begageBP,endageBP,agestep,begyrCE,nsimyrs,source_path,adjusted_path
+PMIP4,pr,Amon,AWI-ESM-1-1-LR,lgm,r1i1p1f1,gn,390101,400012,,cal-adj,proleptic_gregorian,-21000,-21000,1,1000,100,"/data/CMIP/curated_ESGF_replica/AWI-ESM-1-1-LR/lgm/","/data/CMIP/curated_ESGF_replica/AWI-ESM-1-1-LR/lgm-cal-adj/"
+PMIP4,tas,Amon,AWI-ESM-1-1-LR,lgm,r1i1p1f1,gn,390101,400012,,cal-adj,proleptic_gregorian,-21000,-21000,1,1000,100,"/data/CMIP/curated_ESGF_replica/AWI-ESM-1-1-LR/lgm/","/data/CMIP/curated_ESGF_replica/AWI-ESM-1-1-LR/lgm-cal-adj/"
+PMIP4,ts,Amon,AWI-ESM-1-1-LR,lgm,r1i1p1f1,gn,390101,400012,,cal-adj,proleptic_gregorian,-21000,-21000,1,1000,100,"/data/CMIP/curated_ESGF_replica/AWI-ESM-1-1-LR/lgm/","/data/CMIP/curated_ESGF_replica/AWI-ESM-1-1-LR/lgm-cal-adj/"
