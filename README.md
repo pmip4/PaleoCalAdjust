@@ -1,6 +1,6 @@
 PaleoCalAdjust
 ===================
-_This version of PaleoCalAdjust includes the operational modifications undertaken for deployment as part of [https://doi.org/10.5194/gmd-2021-290](Zhoa et al. (2021)). The original README is copied below. The modifications consist primarily of the addition of an __operational__ directory and altering the location of where "-cal-adj" comes in the new file names._
+_This version of PaleoCalAdjust includes the operational modifications undertaken for deployment as part of [(Zhoa et al. (2021)](https://doi.org/10.5194/gmd-2021-290]). The original README is copied below. The modifications consist primarily of the addition of an 'operational' directory and altering the location of where "-cal-adj" comes in the new file names._
 
 ===================
 
