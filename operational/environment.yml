@@ -1,13 +1,9 @@
-name: paleocaladjust 
+name: paleocaladjust
 channels:
-  - conda-forge
   - defaults
-  - anaconda
+  - conda-forge
 dependencies:
-  - gcc
-  - libtools
-  - autoconf
-  - automake
-  - hdf5
-  - libcurl
-  - zlib
+  - netcdf-fortran
+variables:
+  LD_LIBRARY_PATH: $HOME.conda/envs/paleocaladjust/lib/:${LD_LIBRARY_PATH}
+prefix: $HOME/.conda/envs/paleocaladjust

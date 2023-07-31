@@ -1,0 +1,13 @@
+name: paleocaladjust 
+channels:
+  - conda-forge
+  - defaults
+  - anaconda
+dependencies:
+  - gcc
+  - libtools
+  - autoconf
+  - automake
+  - hdf5
+  - libcurl
+  - zlib
