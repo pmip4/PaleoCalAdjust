@@ -127,6 +127,7 @@ do
       ;;
     esac    
     input_dir=$ESGF_DIR/$gcm/$expt
+    echo $input_dir
     if [ -d $input_dir ] 
     then
       output_dir=$ESGF_DIR/$gcm/$expt\-$CA_STR
@@ -165,6 +166,7 @@ do
             let length=$((10#$end_yr))-$((10#$start_yr))+1
             calendar=`ncdump -h $input_dir/$input_file | grep time | grep calendar | cut -d\" -f2`
             if [[ $calendar == "365_day noleap" ]]; then
+              echo "Rewriting calendar attribute"
               ncatted -a calendar,time,o,c,365_day $input_dir/$input_file
               calendar=`ncdump -h $input_dir/$input_file | grep time | grep calendar | cut -d\" -f2`
             fi
